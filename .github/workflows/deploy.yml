@@ -29,5 +29,24 @@ jobs:
 
     - name: Log out of Azure
       run: az logout
+    
+    - name: Create Issue on Failure
+      if: failure()
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issueTitle = "Workflow failed: ${{ github.workflow }}"
+          const issueBody = `Workflow ${{ github.workflow }} failed on ${{ github.run_id }}. Please check it.`
+          const token = process.env.GITHUB_TOKEN
+          const octokit = github.getOctokit(token)
+          await octokit.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: issueTitle,
+            body: issueBody
+          })
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
