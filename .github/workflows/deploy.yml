@@ -35,13 +35,15 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
+          const core = require('@actions/core');
+          const github = require('@actions/github');
           const issueTitle = "Workflow failed: ${{ github.workflow }}"
           const issueBody = `Workflow ${{ github.workflow }} failed on ${{ github.run_id }}. Please check it.`
           const token = process.env.GITHUB_TOKEN
           const octokit = github.getOctokit(token)
           await octokit.rest.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
             title: issueTitle,
             body: issueBody
           })
