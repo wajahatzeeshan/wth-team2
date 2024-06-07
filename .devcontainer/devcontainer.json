@@ -10,7 +10,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-			//	"vsls-contrib.codetour",
+				"vsls-contrib.codetour",
 				"GitHub.copilot",
 				"GitHub.copilot-chat"
 			]

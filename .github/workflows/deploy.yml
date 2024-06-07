@@ -1,3 +1,8 @@
+# The workflow file is triggered on a push event. It checks out the code, logs into Azure using the Azure login action, deploys the Bicep file using the Azure ARM deploy action, and logs out of Azure.
+# The Azure login action uses the AZURE_CREDENTIAL secret to authenticate with Azure. The AZURE_CREDENTIAL secret is a service principal that has the Contributor role on the subscription. The AZURE_SUBSCRIPTION secret contains the subscription ID, and the AZURE_RG secret contains the resource group name.
+# The Azure ARM deploy action uses the subscription ID, resource group name, Bicep file path, and environment parameter to deploy the Bicep file. The failOnStdErr parameter is set to false to prevent the workflow from failing if there are errors during deployment.
+# The az logout command is used to log out of Azure after the deployment is complete.
+
 name: Deploy Bicep file
 on: [push]
 jobs:
@@ -21,3 +26,8 @@ jobs:
         template: ./InfrastructureAsCode/main.bicep
         failOnStdErr: false
         parameters: environment=prod
+
+    - name: Log out of Azure
+      run: az logout
+
+
