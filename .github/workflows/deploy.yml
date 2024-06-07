@@ -35,8 +35,6 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const core = require('@actions/core');
-          const github = require('@actions/github');
           const issueTitle = "Workflow failed: ${{ github.workflow }}"
           const issueBody = `Workflow ${{ github.workflow }} failed on ${{ github.run_id }}. Please check it.`
           const token = process.env.GITHUB_TOKEN
